@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order History</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <h1>📦 Order History</h1>
+      <p>View all placed food orders</p>
+      <a class="top-link" href="{{ url_for('home') }}">Back to Home</a>
+    </header>
+
+    <main class="orders-wrapper">
+      {% if order_data %}
+        {% for entry in order_data %}
+        <div class="card order-card">
+          <h2>Order ID: {{ entry.order.id }}</h2>
+          <p><strong>Name:</strong> {{ entry.order.customer_name }}</p>
+          <p><strong>Phone:</strong> {{ entry.order.phone }}</p>
+          <p><strong>Address:</strong> {{ entry.order.address }}</p>
+          <p><strong>Date:</strong> {{ entry.order.order_date }}</p>
+          <p><strong>Total Amount:</strong> ₹{{ entry.order.total_amount }}</p>
+
+          <h3>Items</h3>
+          <div class="order-items">
+            {% for item in entry.items %}
+            <div class="order-item-row">
+              <span>{{ item.item_name }}</span>
+              <span>Qty: {{ item.quantity }}</span>
+              <span>₹{{ item.subtotal }}</span>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="card">
+          <p>No orders found.</p>
+        </div>
+      {% endif %}
+    </main>
+  </div>
+</body>
+</html>
